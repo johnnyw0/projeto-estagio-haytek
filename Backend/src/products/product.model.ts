@@ -1,5 +1,5 @@
 
-export class Products {
+export class Product {
 
     id: string
     model: string

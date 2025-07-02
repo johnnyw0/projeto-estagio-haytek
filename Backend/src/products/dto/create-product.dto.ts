@@ -17,7 +17,7 @@ export class CreateProductDto {
 
     @IsOptional() 
     @IsString({ message: 'O comprimento focal deve ser uma string.' })
-    focallength?: string; 
+    focalLength?: string; 
 
     @IsOptional()
     @IsString({ message: 'A abertura máxima deve ser uma string.' })
