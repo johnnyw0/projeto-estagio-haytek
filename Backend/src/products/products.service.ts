@@ -1,58 +1,103 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
+import { InjectModel } from '@nestjs/mongoose';
+import { Cursor, Model } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { Product } from './product.model';
-import { v4 } from 'uuid' 
+import { ProductQueryDto } from './dto/product-query.dto';
+import { Product, ProductDocument } from './product.model';
 
 
 
 @Injectable()
 export class ProductsService {
 
-  private products: Product[] = []
+  constructor(@InjectModel(Product.name) private productModel: Model<ProductDocument>) {}
 
-  create(createProductDto: CreateProductDto): Product {
-    const newProduct: Product = {
-      id: v4(),
+
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    const createdProduct = new this.productModel({
       ...createProductDto,
       active: true,
-      hasStabilization: createProductDto.hasStabilization ?? false, 
+      hasStabilization: createProductDto.hasStabilization ?? false,
+    })
+
+    return createdProduct.save();
+
+  }
+
+  async findAll(query: ProductQueryDto): Promise<{ data: Product[], meta: any }> {
+
+    const { page = 1, limit = 10, search, brand, type, active} = query;
+    const filter: any = {};
+
+    if (active !== undefined) {
+      filter.active = active;
+    }
+    if (brand) {
+      filter.brand = { $regex: new RegExp(brand, 'i')}
+    }
+    if (type) {
+      filter.type = { $regex: new RegExp(type, 'i')}
+    }
+    if (search) {
+      filter.$or = [
+        {model: { $regex: new RegExp(search, 'i')}},
+        {brand: { $regex: new RegExp(search, 'i')}},
+        {type: { $regex: new RegExp(search, 'i')}}
+      ]
+    }
+
+    const skip = (page-1) *limit;
+    const queryBuilder = this.productModel.find(filter)
+    const totalItems = await this.productModel.countDocuments(filter).exec();
+    const paginatedProducts = await queryBuilder.skip(skip).limit(limit).exec();
+    const totalPages = Math.ceil(totalItems/limit);
+
+    return  {
+      data: paginatedProducts,
+      meta: {
+        totalItems,
+        currentPage: page,
+        itemsPerPage: limit,
+        totalPages,
+      }
     };
-    this.products.push(newProduct);
-    return newProduct;
+
   }
 
-  findAll(): Product[] {
-    return this.products;
-  }
+  async findOne(id: string): Promise<Product> {
 
-  findOne(id: string) {
-    const product = this.products.find(p => p.id === id && p.active);
+    const product = await this.productModel.findOne( { _id: id, active: true }).exec();
+
     if (!product) {
       throw new NotFoundException(`Produto com id: "${id}" não encontrado ou está inativo.`);
     }
+
     return product;
   }
 
-  update(id: string, updateProductDto: UpdateProductDto): Product {
+  async update(id: string, updateProductDto: UpdateProductDto): Promise<Product> {
 
-  const productIndex = this.products.findIndex(p => p.id === id && p.active);
+    const updatedProduct = await this.productModel.findByIdAndUpdate(
+      { _id: id, active: true},
+      updateProductDto,
+      { new: true, runValidators: true}
+    ).exec();
 
-  if (productIndex === -1) {
-    throw new NotFoundException(`Produto com ID "${id}" não encontrado ou inativo.`);
+    if(!updatedProduct) {
+      throw new NotFoundException(`Produto com ID = "${id}" não encontrado ou inativo.`)
+    }
+
+    return updatedProduct;
   }
 
-  this.products[productIndex] = {
-    ...this.products[productIndex],
-    ...updateProductDto,
-  };
-  return this.products[productIndex];
-}
-
-  remove(id: string) {
-    const product = this.findOne(id);
+  async remove(id: string) {
+    const product = await this.productModel.findOne({ _id: id, active: true }).exec();
+    if (!product) {
+      throw new NotFoundException(`Produto com ID "${id}" não encontrado ou inativo.`);
+    }
     product.active = false;
-    return product;
+    return product.save();
   }
 
 }
