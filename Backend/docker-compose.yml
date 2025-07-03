@@ -13,7 +13,7 @@ services:
       - mongo 
     environment:
       
-      DATABASE_URL: mongodb+srv://joaoawatanabe:FQO0KfXGyb51FqPR@cluster0.d4dvmdw.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0
+      DATABASE_URL: ${DATABASE_URL}
       
     restart: unless-stopped 
 
