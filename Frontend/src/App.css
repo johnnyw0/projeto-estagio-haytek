@@ -40,3 +40,21 @@
 .read-the-docs {
   color: #888;
 }
+
+.add-product-button {
+  display: block;
+  margin: 20px auto;
+  padding: 15px 30px;
+  background-color: #28a745; 
+  color: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2em;
+  cursor: pointer;
+  transition: background-color 0.2s, transform 0.1s; 
+}
+
+.add-product-button:hover {
+  background-color: #218838;
+  transform: translateY(-2px); 
+}

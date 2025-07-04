@@ -2,20 +2,20 @@ import axios from 'axios';
 
 const API_URL = 'http://localhost:3000/products';
 
-interface Product {
+export interface Product {
     id: string
     model:string
     brand:string
     type: string
-    focalLenght: string
+    focalLength: string
     maxAperture: string
     mount: string
-    weight: string
+    weight: number
     hasStabilization: boolean
     active: boolean
 }
 
-interface ProductQuery {
+export interface ProductQuery {
     page?: number
     limit?: number
     search?: string
@@ -24,7 +24,7 @@ interface ProductQuery {
     active?: boolean
 }
 
-interface PaginatedResponse {
+export interface PaginatedResponse {
     data: Product[]
     meta: {
         totalItems: number
