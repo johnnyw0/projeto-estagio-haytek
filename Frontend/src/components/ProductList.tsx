@@ -136,6 +136,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
         <table className="product-table">
           <thead>
             <tr>
+              <th>ID</th>
               <th>Modelo</th>
               <th>Marca</th>
               <th>Tipo</th>
@@ -148,6 +149,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
           <tbody>
             {products.map((product) => (
               <tr key={product.id}>
+                <td>{product.id}</td>
                 <td>{product.model}</td>
                 <td>{product.brand}</td>
                 <td>{product.type}</td>

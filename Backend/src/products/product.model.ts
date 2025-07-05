@@ -4,15 +4,24 @@ import { v4 } from "uuid";
 
 export type ProductDocument = HydratedDocument<Product>;
 
+@Schema({
+  toJSON: {
+    virtuals: true,
+    transform: (doc: any, ret: any) => {
+      ret.id = ret._id;
+      delete ret._id;
+      return ret;
+    },
+  },
+})
 
-@Schema()
+
 export class Product {
 
     @Prop({
         type: String,
         default: v4,
         unique: true,
-        index: true
     })
     _id: string;
 
@@ -46,3 +55,7 @@ export class Product {
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);
+
+ProductSchema.virtual('id').get(function() {
+  return this._id;
+});
