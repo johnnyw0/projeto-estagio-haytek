@@ -43,7 +43,7 @@ O frontend foi desenvolvido utilizando React com Typescript. A utilização do V
 
 ### Containerização
 
-Inicialmente, ao fim do desenvolvimento do backend, coloquei a api e o banco de dados para rodarem em containers, e o frontend rodava localmente enquanto ainda não estava completo. Quando o frontend foi finalizado coloquei os três serviços em containers, porém tiveram problemas de conectividade por conta do Vite aceitar apenas conexões locais (de dentro do container). Para não complicar toda a configuração, implementei um proxy reverso utilizando o Nginx, dessa forma acesso o serviço pela porta 80 e o proxy gerencia as requisições para as URLs corretas de cada serviço.
+Inicialmente, ao fim do desenvolvimento do backend, coloquei a api e o banco de dados para rodarem em containers, e o frontend rodava localmente enquanto ainda não estava completo. Quando o frontend foi finalizado coloquei os três serviços em containers, porém tiveram problemas de conectividade por conta do Vite aceitar apenas conexões locais (de dentro do container). Para não complicar toda a configuração, implementei um proxy reverso utilizando o Nginx, dessa forma acesso o serviço pela porta 80 e o proxy encaminha as requisições para as URLs corretas de cada serviço.
 
 
 
