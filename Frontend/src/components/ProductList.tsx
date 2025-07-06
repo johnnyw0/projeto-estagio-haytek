@@ -71,6 +71,7 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
     setApplyFilterTrigger(prev => prev + 1); 
   };
 
+
   
   const handleDelete = async (id: string) => {
     if (window.confirm('Tem certeza que deseja desativar este produto?')) {
@@ -85,6 +86,8 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
     }
   };
 
+
+
   if (loading) {
     return <div className="loading">Carregando produtos...</div>;
   }
@@ -93,6 +96,8 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
     return <div className="error-message">Erro: {error}</div>;
   }
 
+
+  
   return (
     <div className="product-list-container">
       <h1>Gestão de Produtos</h1>
@@ -103,21 +108,21 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
           placeholder="Buscar por modelo, marca ou tipo..."
           value={search}
           onChange={handleSearchChange}
-          onKeyPress={(e) => { if (e.key === 'Enter') handleApplyFilters(); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') handleApplyFilters(); }}
         />
         <input
           type="text"
           placeholder="Filtrar por marca..."
           value={brandFilter}
           onChange={(e) => setBrandFilter(e.target.value)}
-          onKeyPress={(e) => { if (e.key === 'Enter') handleApplyFilters(); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') handleApplyFilters(); }}
         />
         <input
           type="text"
           placeholder="Filtrar por tipo..."
           value={typeFilter}
           onChange={(e) => setTypeFilter(e.target.value)}
-          onKeyPress={(e) => { if (e.key === 'Enter') handleApplyFilters(); }}
+          onKeyDown={(e) => { if (e.key === 'Enter') handleApplyFilters(); }}
         />
         <select value={activeFilter === undefined ? '' : activeFilter.toString()} onChange={(e) => {
           const value = e.target.value;
@@ -129,6 +134,8 @@ const ProductList: React.FC<ProductListProps> = ({ onEditProduct, refreshListTri
         </select>
         <button onClick={handleApplyFilters}>Aplicar Filtros</button>
       </div>
+
+
 
       {products.length === 0 ? (
         <p>Nenhum produto encontrado.</p>

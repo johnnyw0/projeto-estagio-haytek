@@ -16,8 +16,6 @@ function App() {
     productData: Omit<Product, 'id' | 'active'>, 
     id?: string 
   ) => {
-    console.log("Submetendo formulário. ID recebido:", id);
-    console.log("Payload:", productData);
     try {
       if (id) {
         await productService.updateProduct(id, productData);
@@ -38,7 +36,7 @@ function App() {
       } else if (error.response && error.response.data && error.response.data.message) {
         alert(`Erro da API: ${error.response.data.message}`);
       } else {
-        alert('Ocorreu um erro ao salvar o produto. Verifique o console.');
+        alert('Ocorreu um erro ao salvar o produto.');
       }
       console.error('Erro ao salvar produto:', error);
     }
@@ -52,7 +50,6 @@ function App() {
 
 
   const handleEditProductClick = (product: Product) => {
-    console.log("Editando produto com ID:", product.id);
     setEditingProduct(product);
     setShowForm(true); 
   };

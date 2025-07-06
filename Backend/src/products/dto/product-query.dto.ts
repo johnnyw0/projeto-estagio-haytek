@@ -1,5 +1,6 @@
 import { IsOptional, IsNumber, Min, IsString, IsBoolean} from 'class-validator';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+
 
 export class ProductQueryDto {
   @IsOptional()
@@ -27,7 +28,12 @@ export class ProductQueryDto {
   type?: string; 
 
   @IsOptional()
-  @Type(() => Boolean) 
+  @Transform(({ value }) => {
+    if (value === 'true') return true;
+    if (value === 'false') return false;
+    if (value === undefined || value === null || value === '') return undefined;
+    return value;
+  })
   @IsBoolean({ message: 'O status ativo deve ser um booleano.' })
   active?: boolean; 
 }
