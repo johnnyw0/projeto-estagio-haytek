@@ -1,0 +1,18 @@
+# Dependências do Node
+/node_modules/
+.env              
+
+# Logs
+*.log
+npm-debug.log*
+
+# Compilação/Build
+dist/          
+build/        
+.vite/           
+*.tsbuildinfo    
+# IDEs e Ferramentas
+.vscode/       
+.idea/          
+.DS_Store       
+Thumbs.db     
