@@ -21,7 +21,7 @@ cd projeto-estagio-haytek
 docker compose up --build
 ```
 3. Vá para [localhost](http://localhost)
-4. Caso queira acessar a documentação da API, vá para [swagger](http://localhost:docs)
+4. Caso queira acessar a documentação da API, vá para [swagger](http://localhost/docs)
 ## Processo de desenvolvimento
 
 ### Definição das tecnologias
