@@ -2,8 +2,7 @@
 
 ## Descrição do projeto
 
-É um sistema de gestão de produtos com operações CRUD. A interface permite abrir formulários para adição e edição de produtos e também visualizá-los usando filtros por modelo, marca e tipo. Os produtos são mostrados em forma de tabela que permite 6 produtos por página.
-
+O sistema de gestão de produtos é uma aplicação web completa, projetada para gerenciar um catálogo de lentes, implementando as operações essenciais de um CRUD (Create, Read, Update, Delete). No frontend, a aplicação oferece uma interface de usuário intuitiva para a gestão de produtos, destacando uma tabela interativa com listagem paginada e filtros por busca, marca, tipo e status. Formulários permitem a criação e edição de produtos, enquanto botões de ação na tabela facilitam a desativação (soft-delete) dos itens.
 
 ## Como rodar
 ### Requisitos
@@ -22,6 +21,14 @@ docker compose up --build
 ```
 3. Vá para [localhost](http://localhost)
 4. Caso queira acessar a documentação da API, vá para [swagger](http://localhost/docs)
+
+### Testes
+
+Caso queira rodar os testes unitários, após clonar o repositório, execute:
+```bash
+cd projeto-estagio-haytek/Backend/
+npm run test
+```
 ## Processo de desenvolvimento
 
 ### Definição das tecnologias
@@ -36,6 +43,8 @@ Decidi iniciar pelo backend por ter mais experiência de projetos anteriores e p
 No backend todos os endpoints envolvem a entidade Produto. Temos um **POST** para criar produtos, um **GET** para buscar um produto por ID, um **GET** para a lógica de filtros e paginação, um **PATCH** para atualizar as informações de um produto e um **DELETE** para tornar um produto inativo no sistema.
 
 Toda a integração e operações para lidar com o banco de dados foi implementada utilizando a biblioteca [Mongoose](https://mongoosejs.com/). Um ponto importante aqui foi o uso de um ID customizado no formato uuidv4 ao invés do ObjectID criado pelo mongo. Esse mapeamento foi feito utilizando virtuals para utilizar 'id' ao invés de '_id' e transform para remover o _id original do documento. 
+
+Testes unitários foram feitos para product.service, pois é onde toda a lógica de negócio se encontra. Foram criados seis cenários de testes, um para testar se o serviço está definido e os outros testam cada função presente na classe, create, findAll, findOne, update e delete.
 
 ### Desenvolvimento do frontend
 
