@@ -14,7 +14,7 @@ export class ProductsService {
 
 
   async create(createProductDto: CreateProductDto): Promise<Product> {
-    const createdProduct = new this.productModel({
+    const createdProduct = await this.productModel.create({
       ...createProductDto,
       active: true,
       hasStabilization: createProductDto.hasStabilization ?? false,
@@ -26,7 +26,7 @@ export class ProductsService {
 
   async findAll(query: ProductQueryDto): Promise<{ data: Product[], meta: any }> {
 
-    const { page = 1, limit = 10, search, brand, type, active} = query;
+    const { page = 1, limit = 6, search, brand, type, active} = query;
     const filter: any = {};
 
     if (active !== undefined) {
